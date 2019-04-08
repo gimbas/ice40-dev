@@ -65,4 +65,4 @@ make-dir:
 clean:
 	@rm -rf $(TARGETDIR)/*
 
-.PHONY: clean make-dir timing flash run synthesize
+.PHONY: clean make-dir timing flash synthesize
