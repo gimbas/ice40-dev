@@ -47,8 +47,7 @@ $(TARGETBIN): $(TARGETASC)
 	@echo Packing bin file...
 	@icepack $< $@
 
-run: $(TARGETBIN)
-	@iceprog -S $<
+#run: $(TARGETBIN)	@iceprog -S $<
 
 flash: $(TARGETBIN)
 	@iceprog $<
