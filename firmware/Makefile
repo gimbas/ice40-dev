@@ -47,17 +47,21 @@ $(TARGETBIN): $(TARGETASC)
 	@echo Packing bin file...
 	@icepack $< $@
 
-#run: $(TARGETBIN)	@iceprog -S $<
+write-sram: $(TARGETBIN)
+	@echo Writing SRAM...
+	@icecream -S $<
 
-flash: $(TARGETBIN)
-	@iceprog $<
+write-flash: $(TARGETBIN)
+	@echo Writing external FLASH...
+	@icecream $<
 
-#burn: $(TARGETBIN)
-
-#erase: iceprog -b -c $<
+erase:
+	@echo Erasing external FLASH...
+	@icecream -e 1 -b
 
 timing: $(TARGETASC)
-	icetime -tmd $(DEVICE) -r $(TARGETDIR)/$@.txt $<
+	@echo Running timing analysis tool...
+	@icetime -tmd $(DEVICE) -r $(TARGETDIR)/$@.txt $<
 
 make-dir:
 	@mkdir -p $(TARGETDIR)
@@ -65,4 +69,4 @@ make-dir:
 clean:
 	@rm -rf $(TARGETDIR)/*
 
-.PHONY: clean make-dir timing flash synthesize
+.PHONY: clean make-dir write-sram erase timing write-flash synthesize
