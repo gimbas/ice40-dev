@@ -1,2 +1,45 @@
-set_io clk_25mhz 2
-set_io led 1
+###############################################################################
+#
+# icy-gecko constraint file (.pcf)
+# SG32 package
+#
+###############################################################################
+
+####
+# icy-gecko information: https://github.com/
+####
+
+# BANK 3
+#set_io --warn-no-port IOL_2A 2
+#set_io --warn-no-port IOL_2B 1 # LED
+#set_io --warn-no-port IOL_4A 5
+#set_io --warn-no-port IOL_4B_GBIN7 6
+#set_io --warn-no-port IOL_5A_GBIN6 8
+#set_io --warn-no-port IOL_5B 7
+
+# BANK 1
+#set_io --warn-no-port IOR_34 18
+#set_io --warn-no-port IOR_35_GBIN3 19
+#set_io --warn-no-port IOR_36_GBIN2 20
+#set_io --warn-no-port IOR_38 22
+#set_io --warn-no-port IOR_39 23
+
+# BANK 0
+#set_io --warn-no-port IOT_45 26
+#set_io --warn-no-port IOT_47 27
+#set_io --warn-no-port IOT_49_GBIN0 29
+#set_io --warn-no-port IOT_50_GBIN1 30  # CLK_25MHZ
+#set_io --warn-no-port IOT_52 32
+#set_io --warn-no-port IOT_53 31
+
+# SPI
+#set_io --warn-no-port IOB_24_SDO 12
+#set_io --warn-no-port IOB_25_SDI 13
+#set_io --warn-no-port IOB_26_SCK 15
+#set_io --warn-no-port IOB_27_SS 14
+
+# LED
+set_io --warn-no-port LED 1
+
+# 25MHz clock
+set_io --warn-no-port CLK_25MHZ 30 # input

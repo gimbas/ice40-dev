@@ -14,7 +14,7 @@ SOURCEDIR = src
 # u4k	set device type to iCE5LP4K
 DEVICE = lp384
 PACKAGE = SG32
-TOPVFILE = top
+TOPMODULE = top
 
 # Sources
 SRCFILES := $(addsuffix /*, $(SOURCEDIR))
@@ -33,11 +33,11 @@ synthesize: make-dir $(TARGETBIN)
 
 $(TARGETBLIF): $(VSOURCES)
 	@echo Synthesizing blif file...
-	@yosys -q -p "synth_ice40 -top $(TOPVFILE) -asc $@" $(VSOURCES)
+	@yosys -q -p "synth_ice40 -top $(TOPMODULE) -asc $@" $(VSOURCES)
 
 $(TARGETJSON): $(VSOURCES)
 	@echo Synthesizing json file...
-	@yosys -q -p "synth_ice40 -top $(TOPVFILE) -json $@" $(VSOURCES)
+	@yosys -q -p "synth_ice40 -top $(TOPMODULE) -json $@" $(VSOURCES)
 
 $(TARGETASC): $(TARGETJSON) $(PCFILE)
 	@echo Runing place and route...
@@ -61,7 +61,7 @@ erase:
 
 timing: $(TARGETASC)
 	@echo Running timing analysis tool...
-	@icetime -tmd $(DEVICE) -r $(TARGETDIR)/$@.txt $<
+	@icetime -tmd $(DEVICE) -r $(TARGETDIR)/$(TARGET_NAME)-timing.txt $<
 
 make-dir:
 	@mkdir -p $(TARGETDIR)
