@@ -13,7 +13,7 @@ SOURCEDIR = src
 # up5k  set device type to iCE40UP5K
 # u4k	set device type to iCE5LP4K
 DEVICE = lp384
-PACKAGE = SG32
+PACKAGE = qn32
 TOPMODULE = top
 
 # Sources
@@ -41,7 +41,7 @@ $(TARGETJSON): $(VSOURCES)
 
 $(TARGETASC): $(TARGETJSON) $(PCFILE)
 	@echo Runing place and route...
-	@nextpnr-ice40 -q --$(DEVICE) --json $(TARGETJSON) --pcf $(PCFILE) --asc $@
+	@nextpnr-ice40 -q --$(DEVICE) --package $(PACKAGE) --json $(TARGETJSON) --pcf $(PCFILE) --asc $@
 
 $(TARGETBIN): $(TARGETASC)
 	@echo Packing bin file...
