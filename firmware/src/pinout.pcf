@@ -1,0 +1,34 @@
+# BANK 3
+#set_io IOL_2A          2
+#set_io IOL_2B          1
+#set_io IOL_4A          5
+#set_io IOL_4B_GBIN7    6
+#set_io IOL_5A_GBIN6    8
+#set_io IOL_5B          7
+
+# BANK 1
+#set_io IOR_34          18
+#set_io IOR_35_GBIN3    19
+#set_io IOR_36_GBIN2    20
+#set_io IOR_38          22
+#set_io IOR_39          23
+
+# BANK 0
+#set_io IOT_45          26
+#set_io IOT_47          27
+#set_io IOT_49_GBIN0    29
+#set_io IOT_50_GBIN1    30
+#set_io IOT_52          32
+#set_io IOT_53          31
+
+# SPI
+#set_io IOB_24_SDO      12
+#set_io IOB_25_SDI      13
+#set_io IOB_26_SCK      15
+#set_io IOB_27_SS       14
+
+#################################################
+
+set_io LED              1       # OUT # LED
+set_io clk              30      # IN  # 25MHz Clock
+
