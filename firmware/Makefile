@@ -12,8 +12,8 @@ SOURCEDIR = src
 # hx8k  set device type to iCE40HX8K
 # up5k  set device type to iCE40UP5K
 # u4k	set device type to iCE5LP4K
-DEVICE = lp384
-PACKAGE = qn32
+DEVICE = hx8k
+PACKAGE = ct256
 TOPMODULE = top
 
 # Sources
@@ -61,7 +61,10 @@ erase:
 
 timing: $(TARGETASC)
 	@echo Running timing analysis tool...
-	@icetime -tmd $(DEVICE) -r $(TARGETDIR)/$(TARGET_NAME)-timing.txt $<
+	@icetime -p $(PCFILE) -P $(PACKAGE) -tm -d $(DEVICE) -r $(TARGETDIR)/$(TARGET_NAME)-timing.txt $<
+
+pnr-gui: $(TARGETJSON) $(PCFILE)
+	@nextpnr-ice40 --gui -q --$(DEVICE) --package $(PACKAGE) --json $(TARGETJSON) --pcf $(PCFILE)
 
 make-dir:
 	@mkdir -p $(TARGETDIR)
@@ -69,4 +72,4 @@ make-dir:
 clean:
 	@rm -rf $(TARGETDIR)/*
 
-.PHONY: clean make-dir write-sram erase timing write-flash synthesize
+.PHONY: clean make-dir write-sram erase timing timing-net-list pnr-gui write-flash synthesize
