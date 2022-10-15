@@ -1,6 +1,6 @@
 module top
 (
-    input CLK_25M,
+    input CLK_50M,
     output LED,
     // EBI Signals
     inout EBI_A1D0,
@@ -22,33 +22,77 @@ module top
     input EBI_ALE,
     input EBI_CSn,
     input EBI_REn,
-    input EBI_WEn
+    input EBI_WEn,
+    // ADC Signals
+    output ADC_CLK,
+    input ADC_D0,
+    input ADC_D1,
+    input ADC_D2,
+    input ADC_D3,
+    input ADC_D4,
+    input ADC_D5,
+    input ADC_D6,
+    input ADC_D7,
+    input ADC_D8,
+    input ADC_D9,
+    input ADC_D10,
+    input ADC_D11,
+    input ADC_D12,
+    input ADC_D13,
+    input ADC_D14,
+    input ADC_D15,
+    input ADC_OF,
+    output ADC_OEn
 );
 
 /// Clocks ///
-wire clk_25M;
+wire clk_20M;
+wire clk_50M;
 wire clk_100M;
 
-SB_GB_IO clk_25M_global_buffer
+SB_GB_IO clk_50M_global_buffer
 (
-    .PACKAGE_PIN(CLK_25M),
-    .GLOBAL_BUFFER_OUTPUT(clk_25M)
+    .PACKAGE_PIN(CLK_50M),
+    .GLOBAL_BUFFER_OUTPUT(clk_50M)
 );
 
-pll pll_100M
+SB_PLL40_CORE #(
+	.FEEDBACK_PATH("SIMPLE"),
+	.DIVR(4'b0000),			// DIVR =  0
+	.DIVF(7'b0001111),		// DIVF = 15
+	.DIVQ(3'b011),			// DIVQ =  3
+	.FILTER_RANGE(3'b100)	// FILTER_RANGE = 4
+)
+pll_100M
 (
-    .clk_in(clk_25M),
-    .clk_out(clk_100M),
-    .reset(1'b0),
-    .bypass(1'b0),
-    .locked()
+	.LOCK(),
+	.RESETB(1'b1),
+	.BYPASS(1'b0),
+	.REFERENCECLK(clk_50M),
+	.PLLOUTGLOBAL(clk_100M)
+);
+
+SB_PLL40_CORE #(
+    .FEEDBACK_PATH("SIMPLE"),
+    .DIVR(4'b0100),         // DIVR =  4
+    .DIVF(7'b0111111),      // DIVF = 63
+    .DIVQ(3'b101),          // DIVQ =  5
+    .FILTER_RANGE(3'b001)   // FILTER_RANGE = 1
+)
+pll_20M
+(
+    .LOCK(),
+    .RESETB(1'b1),
+    .BYPASS(1'b0),
+    .REFERENCECLK(clk_50M),
+    .PLLOUTCORE(clk_20M)
 );
 /// Clocks ///
 
 /// BRAM ///
 reg  [12:0] bram_addr;
 reg  [15:0] bram_data_in;
-reg  [15:0] bram_data_out;
+wire [15:0] bram_data_out;
 reg         bram_we = 1'b0;
 
 bram ram
@@ -93,6 +137,11 @@ ebi_adbus [15:0]
     .D_IN_0(ebi_ad_in)
 );
 
+assign EBI_ALE = ebi_ale;
+assign EBI_CSn = ebi_ncs;
+assign EBI_REn = ebi_nre;
+assign EBI_WEn = ebi_nwe;
+
 always @(posedge clk_100M)
     begin
         if(ebi_ncs) // Reset when not selected
@@ -122,10 +171,10 @@ always @(posedge clk_100M)
                                 begin
                                     ebi_state <= EBI_STATE_ALE_WAIT; // A read operation does not need additional wait states, return to "idle" state
 
-                                    case (ebi_addr[16:13])
+                                    case(ebi_addr[16:13])
                                         EBI_BANK_REG:
                                             begin
-                                                case (ebi_addr[12:0]) // Register address
+                                                case(ebi_addr[12:0]) // Register address
                                                     EBI_REG_DUMMY0:
                                                         ebi_ad_out <= 16'hAAAA; // Dummy
                                                     EBI_REG_DUMMY1:
@@ -144,12 +193,12 @@ always @(posedge clk_100M)
                                 end
                             else if(!ebi_nwe) // Write operation
                                 begin
-                                    case (ebi_addr[16:13])
+                                    case(ebi_addr[16:13])
                                         EBI_BANK_REG:
                                             begin
                                                 ebi_state <= EBI_STATE_ALE_WAIT; // A register write operation does not need additional wait states, return to "idle" state
 
-                                                case (ebi_addr[12:0])
+                                                case(ebi_addr[12:0])
                                                     13'h0000:
                                                         ebi_ad_out <= 16'hAAAA; // Dummy
                                                     13'h0002:
@@ -183,17 +232,51 @@ always @(posedge clk_100M)
     end
 /// EBI Interface ///
 
+/// ADC Interface ///
+reg  [16:0] adc_data = 16'b0;
+wire [15:0] adc_data_in;
+wire        adc_of_in;
+wire        adc_clk;
+reg         adc_clk_en = 1'b0;
+reg         adc_noe = 1'b1;
+
+assign adc_clk = clk_20M && adc_clk_en;
+
+assign ADC_CLK = adc_clk;
+assign ADC_D0 = adc_data_in[0];
+assign ADC_D1 = adc_data_in[1];
+assign ADC_D2 = adc_data_in[2];
+assign ADC_D3 = adc_data_in[3];
+assign ADC_D4 = adc_data_in[4];
+assign ADC_D5 = adc_data_in[5];
+assign ADC_D6 = adc_data_in[6];
+assign ADC_D7 = adc_data_in[7];
+assign ADC_D8 = adc_data_in[8];
+assign ADC_D9 = adc_data_in[9];
+assign ADC_D10 = adc_data_in[10];
+assign ADC_D11 = adc_data_in[11];
+assign ADC_D12 = adc_data_in[12];
+assign ADC_D13 = adc_data_in[13];
+assign ADC_D14 = adc_data_in[14];
+assign ADC_D15 = adc_data_in[15];
+assign ADC_OF = adc_of_in;
+assign ADC_OEn = adc_noe;
+
+always @(posedge adc_clk)
+    begin
+        adc_data <= {adc_of_in, adc_data_in};
+    end
+/// ADC Interface ///
+
+/// LED ///
 reg [23:0] led_div = 0;
 
-always @(posedge clk_25M)
+assign LED = led_div[23];
+
+always @(posedge clk_50M)
     begin
         led_div <= led_div + 1;
     end
-
-assign LED = led_div[23];
-assign EBI_ALE = ebi_ale;
-assign EBI_CSn = ebi_ncs;
-assign EBI_REn = ebi_nre;
-assign EBI_WEn = ebi_nwe;
+/// LED ///
 
 endmodule

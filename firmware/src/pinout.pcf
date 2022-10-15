@@ -215,24 +215,43 @@
 #################################################
 
 set_io LED              C3      # OUT   # LED
-set_io CLK_25M          C8      # IN    # 25MHz Clock
-set_io EBI_A1D0         D16     # IO    # EBI Address input 1 and Data output 0 multiplexed
-set_io EBI_A2D1         D15     # IO    # EBI Address input 2 and Data output 1 multiplexed
-set_io EBI_A3D2         B16     # IO    # EBI Address input 3 and Data output 2 multiplexed
-set_io EBI_A4D3         B15     # IO    # EBI Address input 4 and Data output 3 multiplexed
-set_io EBI_A5D4         A16     # IO    # EBI Address input 5 and Data output 4 multiplexed
-set_io EBI_A6D5         A15     # IO    # EBI Address input 6 and Data output 5 multiplexed
-set_io EBI_A7D6         E16     # IO    # EBI Address input 7 and Data output 6 multiplexed
-set_io EBI_A8D7         F15     # IO    # EBI Address input 8 and Data output 7 multiplexed
-set_io EBI_A9D8         F16     # IO    # EBI Address input 9 and Data output 8 multiplexed
-set_io EBI_A10D9        G15     # IO    # EBI Address input 10 and Data output 9 multiplexed
-set_io EBI_A11D10       G16     # IO    # EBI Address input 11 and Data output 10 multiplexed
-set_io EBI_A12D11       J15     # IO    # EBI Address input 12 and Data output 11 multiplexed
-set_io EBI_A13D12       J16     # IO    # EBI Address input 13 and Data output 12 multiplexed
-set_io EBI_A14D13       K15     # IO    # EBI Address input 14 and Data output 13 multiplexed
-set_io EBI_A15D14       K16     # IO    # EBI Address input 15 and Data output 14 multiplexed
-set_io EBI_A16D15       L16     # IO    # EBI Address input 16 and Data output 15 multiplexed
+set_io CLK_50M          C8      # IN    # 50MHz Clock
+set_io EBI_A1D0         D16     # IO    # EBI Address input 1 and Data input/output 0 multiplexed
+set_io EBI_A2D1         D15     # IO    # EBI Address input 2 and Data input/output 1 multiplexed
+set_io EBI_A3D2         B16     # IO    # EBI Address input 3 and Data input/output 2 multiplexed
+set_io EBI_A4D3         B15     # IO    # EBI Address input 4 and Data input/output 3 multiplexed
+set_io EBI_A5D4         A16     # IO    # EBI Address input 5 and Data input/output 4 multiplexed
+set_io EBI_A6D5         A15     # IO    # EBI Address input 6 and Data input/output 5 multiplexed
+set_io EBI_A7D6         E16     # IO    # EBI Address input 7 and Data input/output 6 multiplexed
+set_io EBI_A8D7         F15     # IO    # EBI Address input 8 and Data input/output 7 multiplexed
+set_io EBI_A9D8         F16     # IO    # EBI Address input 9 and Data input/output 8 multiplexed
+set_io EBI_A10D9        G15     # IO    # EBI Address input 10 and Data input/output 9 multiplexed
+set_io EBI_A11D10       G16     # IO    # EBI Address input 11 and Data input/output 10 multiplexed
+set_io EBI_A12D11       J15     # IO    # EBI Address input 12 and Data input/output 11 multiplexed
+set_io EBI_A13D12       J16     # IO    # EBI Address input 13 and Data input/output 12 multiplexed
+set_io EBI_A14D13       K15     # IO    # EBI Address input 14 and Data input/output 13 multiplexed
+set_io EBI_A15D14       K16     # IO    # EBI Address input 15 and Data input/output 14 multiplexed
+set_io EBI_A16D15       L16     # IO    # EBI Address input 16 and Data input/output 15 multiplexed
 set_io EBI_ALE          N16     # IN    # EBI Address Latch Enable input
 set_io EBI_CSn          P14     # IN    # EBI Chip Select
 set_io EBI_REn          P15     # IN    # EBI Read Enable
 set_io EBI_WEn          P16     # IN    # EBI Write Enable
+set_io ADC_CLK          D3      # OUT   # ADC Clock
+set_io ADC_D0           N6      # IN    # ADC Data input 0
+set_io ADC_D1           T1      # IN    # ADC Data input 1
+set_io ADC_D2           P4      # IN    # ADC Data input 2
+set_io ADC_D3           R2      # IN    # ADC Data input 3
+set_io ADC_D4           N5      # IN    # ADC Data input 4
+set_io ADC_D5           T2      # IN    # ADC Data input 5
+set_io ADC_D6           P5      # IN    # ADC Data input 6
+set_io ADC_D7           R3      # IN    # ADC Data input 7
+set_io ADC_D8           R5      # IN    # ADC Data input 8
+set_io ADC_D9           T3      # IN    # ADC Data input 9
+set_io ADC_D10          R4      # IN    # ADC Data input 10
+set_io ADC_D11          M7      # IN    # ADC Data input 11
+set_io ADC_D12          N7      # IN    # ADC Data input 12
+set_io ADC_D13          P6      # IN    # ADC Data input 13
+set_io ADC_D14          M8      # IN    # ADC Data input 14
+set_io ADC_D15          T5      # IN    # ADC Data input 15
+set_io ADC_OF           D7      # IN    # ADC Overflow input
+set_io ADC_OEn          A6      # OUT   # ADC Output enable output
